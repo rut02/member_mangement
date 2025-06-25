@@ -1,0 +1,58 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>รายการสมาชิก</mat-card-title>
+    <span class="spacer"></span>
+    <button mat-raised-button color="primary" (click)="openMemberDialog()">เพิ่มสมาชิก</button>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-form-field appearance="outline">
+      <mat-label>ค้นหาชื่อหรือนามสกุล</mat-label>
+      <input matInput [formControl]="searchControl">
+    </mat-form-field>
+    <table mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>ID</th>
+        <td mat-cell *matCellDef="let member">{{ member.id }}</td>
+      </ng-container>
+      <ng-container matColumnDef="prefix">
+        <th mat-header-cell *matHeaderCellDef>คำนำหน้า</th>
+        <td mat-cell *matCellDef="let member">{{ member.prefix }}</td>
+      </ng-container>
+      <ng-container matColumnDef="firstName">
+        <th mat-header-cell *matHeaderCellDef>ชื่อ</th>
+        <td mat-cell *matCellDef="let member">{{ member.firstName }}</td>
+      </ng-container>
+      <ng-container matColumnDef="lastName">
+        <th mat-header-cell *matHeaderCellDef>นามสกุล</th>
+        <td mat-cell *matCellDef="let member">{{ member.lastName }}</td>
+      </ng-container>
+      <ng-container matColumnDef="birthDate">
+        <th mat-header-cell *matHeaderCellDef>วันเกิด</th>
+        <td mat-cell *matCellDef="let member">{{ member.birthDate | date: 'dd/MM/yyyy' }}</td>
+      </ng-container>
+      <ng-container matColumnDef="age">
+        <th mat-header-cell *matHeaderCellDef>อายุ</th>
+        <td mat-cell *matCellDef="let member">{{ member.age }}</td>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>จัดการ</th>
+        <td mat-cell *matCellDef="let member">
+          <button mat-icon-button (click)="openMemberDialog(member)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button (click)="deleteMember(member.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator
+      [length]="total"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="[5, 10, 20]"
+      (page)="onPageChange($event)">
+    </mat-paginator>
+  </mat-card-content>
+</mat-card>

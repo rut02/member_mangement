@@ -1,0 +1,46 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{ memberId ? 'แก้ไขสมาชิก' : 'เพิ่มสมาชิก' }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <mat-form-field appearance="outline">
+        <mat-label>คำนำหน้า</mat-label>
+        <mat-select formControlName="prefix">
+          <mat-option *ngFor="let prefix of prefixes" [value]="prefix">{{ prefix }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.get('prefix')?.hasError('required')">ต้องระบุคำนำหน้า</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>ชื่อ</mat-label>
+        <input matInput formControlName="firstName">
+        <mat-error *ngIf="form.get('firstName')?.hasError('required')">ต้องระบุชื่อ</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>นามสกุล</mat-label>
+        <input matInput formControlName="lastName">
+        <mat-error *ngIf="form.get('lastName')?.hasError('required')">ต้องระบุนามสกุล</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>วันเกิด</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="birthDate">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="form.get('birthDate')?.hasError('required')">ต้องระบุวันเกิด</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>รูปภาพโปรไฟล์</mat-label>
+        <input matInput type="file" (change)="onFileChange($event)" accept="image/jpeg,image/png">
+      </mat-form-field>
+
+      <div>
+        <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">บันทึก</button>
+        <button mat-button type="button" (click)="cancel()">ยกเลิก</button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
